@@ -49,6 +49,6 @@ jobs:
         with:
           name: generated-cvs
           path: |
-            cv-en.pdf
-            cv-es.pdf
+            output/cv-en.pdf
+            output/cv-es.pdf
           retention-days: 2
