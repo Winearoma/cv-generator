@@ -32,7 +32,7 @@ TEMPLATE_FILE="./templates/template-$LANG.tex"
 TEX="cv-$LANG.tex"
 OUTPUT_DIR="./output/"
 PDF="cv-$LANG.pdf"
-TMP_DIR=${OUTPUT_DIR}/tmp/
+TMP_DIR=${OUTPUT_DIR}tmp/
 mkdir -p ${TMP_DIR}
 
 # Check dependencies
@@ -61,13 +61,107 @@ escape_latex() {
   echo -n "$input" | sed -e 's/&/\\\&/g' -e 's/%/\\%/g' -e 's/#/\\#/g' -e 's/{/\\{/g' -e 's/}/\\}/g' -e 's/~/\\~/g' -e 's/\\/\\textbackslash{}/g' -e 's/\n//g'
 }
 
+#Function to build Experience block
+build_exp() {
+  local tmp=${TMP_DIR}tmp.exp
+  [ "$LANG" == "es" ] && AT="en" || AT="at"
+  local count=0
+  local task_count=0
+  local title=""
+  local company=""
+  local location=""
+  local start=""
+  local end=""
+  local period=""
+  local task=""
+  local output=""
+  count=$(jq '. | length' $tmp)
+  for (( i=0; i<count; i++ )); do
+    title=$(jq -r ".[$i].title" $tmp)
+    company=$(jq -r ".[$i].company" $tmp)
+    location=$(jq -r ".[$i].location" $tmp)
+    start=$(jq -r ".[$i].startDate" $tmp)
+    end=$(jq -r ".[$i].endDate" $tmp)
+    period="$start -- $end"
+    output+="\\\\textbf{$title} $AT \\\\textit{$company} \\hfill $period\\\\\ $location\n\\\\begin{itemize}[topsep=8pt,itemsep=0pt]\n"
+    task_count=$(jq ".[$i].tasks | length" $tmp)
+    for (( j=0; j<task_count; j++ )); do
+      task=$(jq -r ".[$i].tasks[$j]" $tmp)
+      output+="  \\item $task\n"
+    done
+    output+="\\end{itemize}\n"
+  done
+  echo "$output"
+}
+#Function to build Education block
+build_edu() {
+  local tmp=${TMP_DIR}tmp.edu
+  [ "$LANG" == "es" ] && AT="en" || AT="at"
+  local count=0
+  local output=""
+  local degree=""
+  local institution=""
+  local start=""
+  local end=""
+  local period=""
+  count=$(jq '. | length' $tmp)
+  for (( i=0; i<count; i++ )); do
+    degree=$(jq -r ".[$i].degree" $tmp)
+    institution=$(jq -r ".[$i].institution" $tmp)
+    location=$(jq -r ".[$i].location" $tmp)
+    start=$(jq -r ".[$i].startDate" $tmp)
+    end=$(jq -r ".[$i].endDate" $tmp)
+    period="$start -- $end"
+    output+="\\\\textbf{$degree} $AT \\\\textit{$institution} \\hfill $period\\\\\ $location \\\\\ "
+  done
+  echo "$output"
+}
+#Function to build Skills block
+build_sk() {
+  local tmp=${TMP_DIR}tmp.sk
+  local count=0
+  local output=""
+  local category=""
+  local skillset=""
+  count=$(jq '. | length' $tmp)
+  for (( i=0; i<count; i++ )); do
+    category=$(jq -r ". | keys | nth($i)" $tmp)
+    skillset=$(jq ".$category | join(\", \")" $tmp)
+    output+="  \\item $category:  $skillset\n"
+  done
+  echo "$output"
+}
+#Function to build Languages block
+build_lang() {
+  local tmp=${TMP_DIR}tmp.lang
+  local count=0
+  local output=""
+  local lang=""
+  local proficiency=""
+  count=$(jq '. | length' $tmp)
+  for (( i=0; i<count; i++ )); do
+    lang=$(jq -r ".[$i].language" $tmp)
+    proficiency=$(jq -r ".[$i].proficiency" $tmp)
+    output+="  \\item $lang ($proficiency)\n"
+  done
+  echo "$output"
+}
+
+#Function to extract plain string from JSON value
+extract_plain_string() {
+  local tmp="$1"
+  local key="$2"
+  local var=""
+  var=$(jq -r ".${key}" $tmp)
+  if [[ -z "$var" ]]; then
+    echo "Error: 'contact.${key}' is empty in $JSON_FILE"
+    exit 1
+  fi
+  echo $(escape_latex "$var")
+}
+
 #TODO: implement data integrity checks
 #Generate tmp section files
-
-echo "--test--67"
-echo ${TMP_DIR}tmp.exp
-
-
 jq -c '.experiences' "$JSON_FILE" > ${TMP_DIR}tmp.exp
 jq -c '.education' "$JSON_FILE" > ${TMP_DIR}tmp.edu
 jq -c '.skills' "$JSON_FILE" > ${TMP_DIR}tmp.sk
@@ -75,95 +169,24 @@ jq -c '.languages' "$JSON_FILE" > ${TMP_DIR}tmp.lang
 jq -c '.contact' "$JSON_FILE" > ${TMP_DIR}tmp.con
 
 # Generate experience block
-EXP_BLOCK=""
-TMP_EXP=${TMP_DIR}tmp.exp
-count=$(jq '. | length' $TMP_EXP)
-for (( i=0; i<count; i++ )); do
-  TITLE=$(jq -r ".[$i].title" $TMP_EXP)
-  COMPANY=$(jq -r ".[$i].company" $TMP_EXP)
-  LOCATION=$(jq -r ".[$i].location" $TMP_EXP)
-  START=$(jq -r ".[$i].startDate" $TMP_EXP)
-  END=$(jq -r ".[$i].endDate" $TMP_EXP)
-  PERIOD="$START -- $END"
-  EXP_BLOCK+="\\\\textbf{$TITLE} at \\\\textit{$COMPANY} \\hfill $PERIOD\\\\\ $LOCATION\n\\\\begin{itemize}[topsep=8pt,itemsep=0pt]\n"
-  task_count=$(jq ".[$i].tasks | length" $TMP_EXP)
-  for (( j=0; j<task_count; j++ )); do
-    TASK=$(jq -r ".[$i].tasks[$j]" $TMP_EXP)
-    EXP_BLOCK+="  \\item $TASK\n"
-  done
-  EXP_BLOCK+="\\end{itemize}\n"
-done
+EXP_BLOCK=$(build_exp)
 # Generate education block
-EDU_BLOCK=""
-TMP_EDU=${TMP_DIR}tmp.edu
-count=$(jq '. | length' $TMP_EDU)
-for (( i=0; i<count; i++ )); do
-  DEGREE=$(jq -r ".[$i].degree" $TMP_EDU)
-  INSTITUTION=$(jq -r ".[$i].institution" $TMP_EDU)
-  LOCATION=$(jq -r ".[$i].location" $TMP_EDU)
-  START=$(jq -r ".[$i].startDate" $TMP_EDU)
-  END=$(jq -r ".[$i].endDate" $TMP_EDU)
-  PERIOD="$START -- $END"
-  EDU_BLOCK+="\\\\textbf{$DEGREE} at \\\\textit{$INSTITUTION} \\hfill $PERIOD\\\\\ $LOCATION\n"
-done
+EDU_BLOCK=$(build_edu)
 # Generate skills block
-SK_BLOCK=""
-TMP_SK=${TMP_DIR}tmp.sk
-count=$(jq '. | length' $TMP_SK)
-for (( i=0; i<count; i++ )); do
-  CATEGORY=$(jq -r ". | keys | nth($i)" $TMP_SK)
-  SKILLSET=$(jq ".$CATEGORY | join(\", \")" $TMP_SK)
-  SK_BLOCK+="  \\item $CATEGORY:  $SKILLSET\n"
-done
+SK_BLOCK=$(build_sk)
 # Generate languages block
-LANG_BLOCK=""
-TMP_LANG=${TMP_DIR}tmp.lang
-lang_count=$(jq '. | length' $TMP_LANG)
-for (( i=0; i<lang_count; i++ )); do
-  LANGUAGE=$(jq -r ".[$i].language" $TMP_LANG)
-  PROFICIENCY=$(jq -r ".[$i].proficiency" $TMP_LANG)
-  LANG_BLOCK+="  \\item $LANGUAGE ($PROFICIENCY)\n"
-done
+LANG_BLOCK=$(build_lang)
 
 # Copy template to output
 cp "$TEMPLATE_FILE" "${OUTPUT_DIR}$TEX"
 
 # Extract contact info
 TMP_CON=${TMP_DIR}tmp.con
-NAME=$(jq -r '.name' $TMP_CON)
-if [[ -z "$NAME" ]]; then
-  echo "Error: 'contact.name' is empty in $JSON_FILE"
-  exit 1
-fi
-NAME=$(escape_latex "$NAME")
-
-EMAIL=$(jq -r '.email' $TMP_CON)
-if [[ -z "$EMAIL" ]]; then
-  echo "Error: 'contact.email' is empty in $JSON_FILE"
-  exit 1
-fi
-EMAIL=$(escape_latex "$EMAIL")
-
-PHONE=$(jq -r '.phone' $TMP_CON)
-if [[ -z "$PHONE" ]]; then
-  echo "Error: 'contact.phone' is empty in $JSON_FILE"
-  exit 1
-fi
-PHONE=$(escape_latex "$PHONE")
-
-LINKEDIN=$(jq -r '.linkedin' $TMP_CON)
-if [[ -z "$LINKEDIN" ]]; then
-  echo "Error: 'contact.linkedin' is empty in $JSON_FILE"
-  exit 1
-fi
-LINKEDIN=$(escape_latex "$LINKEDIN")
-
-SUMMARY=$(jq -r '.summary' $JSON_FILE)
-if [[ -z "$SUMMARY" ]]; then
-  echo "Error: 'summary' is empty in $JSON_FILE"
-  exit 1
-fi
-SUMMARY=$(escape_latex "$SUMMARY")
+NAME=$(extract_plain_string "$TMP_CON" "name")
+EMAIL=$(extract_plain_string "$TMP_CON" "email")
+PHONE=$(extract_plain_string "$TMP_CON" "phone")
+LINKEDIN=$(extract_plain_string "$TMP_CON" "linkedin")
+SUMMARY=$(extract_plain_string "$JSON_FILE" "summary")
 
 #Clean tmp files
 rm -rf $TMP_DIR
@@ -213,7 +236,7 @@ awk -v skBlock="$(sed 's/\(.*\)\\n/\1/' <<< $SK_BLOCK)" '
 if pdflatex -interaction=nonstopmode -output-directory=$OUTPUT_DIR "${OUTPUT_DIR}$TEX"; then
   echo "Generated $PDF successfully. You can find this file along with the .tex file used to generate it in the output folder."
 else
-  echo "Error: Failed to compile $OUTPUT_TEX. Check LaTeX errors in ${OUTPUT_TEX%.tex}.log."
+  echo "Error: Failed to compile $TEX. Check LaTeX errors in ${OUTPUT_DIR}${TEX%.tex}.log."
   exit 1
 fi
 
