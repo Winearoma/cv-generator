@@ -11,7 +11,7 @@ on:
       - '.github/workflows/build-pdf.yml'
   pull_request:
     branches:
-      -master
+      - master
     paths:
       - 'app/data/**'
       - 'app/templates/**'
@@ -22,9 +22,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
       - name: Checkout code
-        uses: actions/checkout@v4
-        #run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+        run: docker build . --file Dockerfile --tag cv-builder:latest
 
       - name: Install dependencies
         run: |
@@ -33,10 +33,10 @@ jobs:
             texlive-latex-base \
             texlive-latex-extra
       - name: Build English CV
-        run: bash build-cv.sh --lang en
+        run: docker run --rm -v $(pwd):/app cv-builder:${{ github.sha }} bash build-cv.sh --lang en
 
       - name: Build Spanish CV
-        run: bash build-cv.sh --lang es
+        run: docker run --rm -v $(pwd):/app cv-builder:${{ github.sha }} bash build-cv.sh --lang es
 
       - name: Upload PDFs
         uses: actions/upload-artifact@v3
