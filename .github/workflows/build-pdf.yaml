@@ -17,31 +17,38 @@ on:
       - 'app/templates/**'
       - 'app/build-cv.sh'
       - '.github/workflows/build-pdf.yml'
+  workflow_dispatch:  # Allows manual triggering
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
       - name: Checkout code
-        run: docker build . --file Dockerfile --tag cv-builder:latest
+        uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Debug changed files
         run: |
-          sudo apt update
-          sudo apt install -y jq \
-            texlive-latex-base \
-            texlive-latex-extra
-      - name: Build English CV
-        run: bash build-cv.sh --lang en
+          echo "Changed files in this commit:"
+          git diff --name-only HEAD^ HEAD || echo "No diff available (first commit?)"
 
-      - name: Build Spanish CV
-        run: bash build-cv.sh --lang es
+      - name: Build Docker image
+        run: |
+          docker build . --file Dockerfile --tag cv-builder:${{ github.sha }}
+
+      - name: Run English CV build in Docker
+        run: |
+          docker run --rm -v $(pwd):/app cv-builder:${{ github.sha }} bash /app/build-cv.sh --lang en
+
+      - name: Run Spanish CV build in Docker
+        run: |
+          docker run --rm -v $(pwd):/app cv-builder:${{ github.sha }} bash /app/build-cv.sh --lang es
 
       - name: Upload PDFs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: generated-cvs
           path: |
             cv-en.pdf
             cv-es.pdf
+          retention-days: 2
