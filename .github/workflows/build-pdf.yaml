@@ -5,17 +5,17 @@ on:
     branches:
       - master
     paths:
-      - 'data/**'
-      - 'templates/**'
-      - 'build-cv.sh'
+      - 'app/data/**'
+      - 'app/templates/**'
+      - 'app/build-cv.sh'
       - '.github/workflows/build-pdf.yml'
   pull_request:
     branches:
       -master
     paths:
-      - 'data/**'
-      - 'templates/**'
-      - 'build-cv.sh'
+      - 'app/data/**'
+      - 'app/templates/**'
+      - 'app/build-cv.sh'
       - '.github/workflows/build-pdf.yml'
 jobs:
   build:
