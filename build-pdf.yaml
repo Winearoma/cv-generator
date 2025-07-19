@@ -1,0 +1,46 @@
+name: Build CV PDFs
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'data/**'
+      - 'templates/**'
+      - 'build-cv.sh'
+      - '.github/workflows/build-pdf.yml'
+  pull_request:
+    branches:
+      -master
+    paths:
+      - 'data/**'
+      - 'templates/**'
+      - 'build-cv.sh'
+      - '.github/workflows/build-pdf.yml'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y jq \
+            texlive-latex-base \
+            texlive-latex-extra
+      - name: Build English CV
+        run: bash build-cv.sh --lang en
+
+      - name: Build Spanish CV
+        run: bash build-cv.sh --lang es
+
+      - name: Upload PDFs
+        uses: actions/upload-artifact@v3
+        with:
+          name: generated-cvs
+          path: |
+            cv-en.pdf
+            cv-es.pdf
