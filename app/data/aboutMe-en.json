@@ -1,0 +1,90 @@
+{
+  "contact": {
+    "name": "Sebastián Arce",
+    "location": "Seville, Spain",
+    "email": "arce.rs@gmail.com",
+    "phone": "+34 651 334 535",
+    "linkedin": "https://www.linkedin.com/in/arcseb"
+  },
+  "summary": "Software Engineer with over 7 years of experience building scalable backend systems using Java, Spring Boot, and PHP, with a keen interest in DevOps and fintech applications. Experienced in microservices architecture, API integrations, and container orchestration with Kubernetes, contributing to efficient and secure solutions. Proficient in agile methodologies, TDD, and DDD, with a focus on clean code and automation.",
+  "experiences": [
+    {
+      "title": "Software Engineer",
+      "company": "Apipana.io",
+      "location": "Seville, Spain",
+      "startDate": "2025-04",
+      "endDate": "Present",
+      "tasks": [
+        "Maintained microservices using Java, Spring Boot, and Kotlin, enhancing system scalability.",
+        "Contributed to API Gateway (Custom/Spring/Zuul) migration to Kong (KIC + Gateway API) for improved Kubernetes-based security and exposure.",
+        "Implemented observability tools like Prometheus, Grafana, OpenTelemetry and ELK, to monitor system performance."
+      ]
+    },
+    {
+      "title": "Java Developer",
+      "company": "Veepee",
+      "location": "Barcelona, Spain",
+      "startDate": "2018-01",
+      "endDate": "2023-03",
+      "tasks": [
+        "Participated in migrating a legacy monolith to microservices using Java 8, Spring Boot, and Apache Kafka, improving system modularity.",
+        "Implemented asynchronous communication with RabbitMQ, reducing processing delays.",
+        "Contributed to logistics domain features, incorporating TDD for robust unit and integration tests."
+      ]
+    },
+    {
+      "title": "Fullstack Developer",
+      "company": "Fihoca",
+      "location": "Barcelona, Spain",
+      "startDate": "2017-09",
+      "endDate": "2018-01",
+      "tasks": [
+        "Built web applications using PHP, SQL, JavaScript (React, jQuery), and CSS, focusing on CMS templating.",
+        "Explored Java and Liferay CMS for portal integration."
+      ]
+    },
+    {
+      "title": "Web Developer",
+      "company": "MSC Bikes",
+      "location": "Gavà, Spain",
+      "startDate": "2017-04",
+      "endDate": "2017-09",
+      "tasks": [
+        "Developed B2B and intranet tools using PHP, MySQL, JavaScript, and Bootstrap for dynamic product catalogs.",
+        "Performed full-stack development, ensuring responsive and user-friendly interfaces."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Licenciatura en Ciencias Biológicas",
+      "institution": "Universidad de Buenos Aires",
+      "location": "Buenos Aires, Argentina",
+      "startDate": "2008",
+      "endDate": "2014"
+    },
+    {
+      "degree": "Licenciatura en Química (Incomplete)",
+      "institution": "Universidad de Buenos Aires",
+      "location": "Buenos Aires, Argentina",
+      "startDate": "2010",
+      "endDate": "2014"
+    }
+  ],
+  "skills": {
+    "programming": ["Java", "Javascript", "PHP", "SQL", "Bash"],
+    "frameworks": ["Spring Boot", "Laravel", "Vue.js", "Node.js", "React.js"],
+    "devops": ["Docker", "Kubernetes","Helm","GitLab", "Jenkins", "Bamboo", "Prometheus", "Grafana", "ELK"],
+    "messaging": ["Apache Kafka", "RabbitMQ"],
+    "databases": ["PostgreSQL", "MySQL", "Redis", "MongoDB"],
+    "practices": ["TDD", "DDD", "Agile", "RESTful APIs"]
+  },
+  "languages": [
+    { "language": "Spanish", "proficiency": "Native" },
+    { "language": "English", "proficiency": "C1" },
+    { "language": "Catalan", "proficiency": "C1" },
+    { "language": "Italian", "proficiency": "Conversational" },
+    { "language": "Portuguese", "proficiency": "Conversational" },
+    { "language": "Russian", "proficiency": "Beginner" }
+  ]
+}

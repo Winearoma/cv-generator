@@ -1,0 +1,77 @@
+% Setting up a professional, ATS-friendly CV template
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=0.75in]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{multicol}
+% Configuring fonts
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+
+\definecolor{primary}{RGB}{33, 102, 155}    % muted blue
+\definecolor{textgray}{gray}{0.25}
+
+% Section will jump to next page if not fitting current vertically
+\newcommand\alwaysfit{\vfil\penalty-9999\vfilneg\section}
+
+% Customizing section headers
+\titleformat{\section}{\color{primary}\large\bfseries}{\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{10pt}{5pt}
+
+% Removing page numbers
+\pagestyle{empty}
+
+\begin{document}
+
+% Header: Contact Information
+\begin{center}
+    {\LARGE \textbf{{{name}}}}\\
+    \vspace{2mm}
+    \href{mailto:{{email}}}{{{email}}} | {{{phone}}} | \href{{{linkedin}}}{{{linkedin}}}
+\end{center}
+
+% Summary
+\alwaysfit*{Sobre Mí}
+{{{summary}}}
+
+% Experience
+\alwaysfit*{Experiencia Laboral}
+{% for job in experience %}
+\textbf{{{job.title}}} en \textit{{{job.company}}} \hfill {{{job.period}}}\\
+{{{job.location}}}
+\begin{itemize}[topsep= 2pt, itemsep=2pt]
+    {% for task in job.tasks %}
+    \item {{{task}}}
+    {% endfor %}
+\end{itemize}
+{% endfor experience %}
+
+% Education
+\alwaysfit*{Educación}
+{% for ed in education %}
+\textbf{{{ed.degree}}} en \textit{{{ed.institution}}} \hfill {{{ed.period}}}\\
+{{{ed.location}}}
+{% endfor education %}
+
+% Skills
+\alwaysfit*{Habilidades}
+\begin{itemize}[itemsep=0pt]
+    {% for skillset in skills %}
+    \item {{{skillset.category}}} : {{{skillset}}}
+    {% endfor skills %}
+\end{itemize}
+
+% Languages
+\alwaysfit*{Idiomas}
+\begin{multicols}{2}
+\begin{itemize}[itemsep=0pt]
+    {% for lang in languages %}
+    \item {{{lang.language}}} ({{{lang.proficiency}}})
+    {% endfor languages %}
+\end{itemize}
+\end{multicols}
+\end{document}

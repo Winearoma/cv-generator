@@ -1,0 +1,90 @@
+{
+  "contact": {
+    "name": "Sebastián Arce",
+    "location": "Sevilla, España",
+    "email": "arce.rs@gmail.com",
+    "phone": "+34 651 334 535",
+    "linkedin": "https://www.linkedin.com/in/arcseb"
+  },
+  "summary": "Desarrollador de software con más de 7 años de experiencia construyendo sistemas backend escalables utilizando Java, Spring Boot y PHP, con un marcado interés en DevOps y aplicaciones fintech. Con experiencia en arquitectura de microservicios, integraciones de API y orquestación de contenedores con Kubernetes, contribuyendo a soluciones eficientes y seguras. Acostumbrado a metodologías ágiles, TDD y DDD, con foco en código limpio y automatización.",
+  "experiences": [
+    {
+      "title": "Ingeniero de Software",
+      "company": "Apipana.io",
+      "location": "Sevilla, España",
+      "startDate": "2025-04",
+      "endDate": "Presente",
+      "tasks": [
+        "Mantenimiento de microservicios utilizando Java, Spring Boot y Kotlin, mejorando la escalabilidad del sistema.",
+        "Contribución en la migración del API Gateway (Custom/Spring/Zuul) a Kong (KIC + Gateway API) para una solución estándar basada en Kubernetes.",
+        "Implementación de herramientas de observabilidad como Prometheus, Grafana, OpenTelemetry y ELK para monitorear el rendimiento del sistema."
+      ]
+    },
+    {
+      "title": "Desarrollador Java",
+      "company": "Veepee",
+      "location": "Barcelona, España",
+      "startDate": "2018-01",
+      "endDate": "2023-03",
+      "tasks": [
+        "Participación en la migración de un monolito legacy a microservicios utilizando Java 8, Spring Boot y Apache Kafka.",
+        "Implementación de comunicación asincrónica con RabbitMQ.",
+        "Colaboración en funcionalidades del dominio logístico, incorporando TDD para robustez en pruebas unitarias y de integración."
+      ]
+    },
+    {
+      "title": "Desarrollador Fullstack",
+      "company": "Fihoca",
+      "location": "Barcelona, España",
+      "startDate": "2017-09",
+      "endDate": "2018-01",
+      "tasks": [
+        "Desarrollo de aplicaciones web usando PHP, SQL, JavaScript (React, jQuery) y CSS, con enfoque en plantillas CMS.",
+        "Exploración de Java y Liferay CMS para integración de portales."
+      ]
+    },
+    {
+      "title": "Desarrollador Web",
+      "company": "MSC Bikes",
+      "location": "Gavà, España",
+      "startDate": "2017-04",
+      "endDate": "2017-09",
+      "tasks": [
+        "Desarrollo de herramientas B2B e intranet usando PHP, MySQL, JavaScript y Bootstrap para catálogos de productos dinámicos.",
+        "Trabajo de desarrollo full-stack asegurando interfaces responsivas y centradas en la usabilidad."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Licenciatura en Ciencias Biológicas",
+      "institution": "Universidad de Buenos Aires",
+      "location": "Buenos Aires, Argentina",
+      "startDate": "2008",
+      "endDate": "2014"
+    },
+    {
+      "degree": "Licenciatura en Química (Incompleta)",
+      "institution": "Universidad de Buenos Aires",
+      "location": "Buenos Aires, Argentina",
+      "startDate": "2010",
+      "endDate": "2014"
+    }
+  ],
+  "skills": {
+    "Lenguajes": ["Java","Javascript","PHP","SQL","Bash"],
+    "Frameworks": ["Spring Boot","Laravel","Vue.js","Node.js","React.js"],
+    "DevOps": ["Docker","Kubernetes","Helm","GitLab","Jenkins","Bamboo","Prometheus","Grafana","ELK"],
+    "Eventos": ["Apache Kafka","RabbitMQ"],
+    "BBDD": ["PostgreSQL","MySQL","Redis","MongoDB"],
+    "Otras": ["TDD", "DDD", "Agile", "RESTful APIs"]
+  },
+  "languages": [
+    { "language": "Español", "proficiency": "Nativo" },
+    { "language": "Inglés", "proficiency": "C1" },
+    { "language": "Catalán", "proficiency": "C1" },
+    { "language": "Italiano", "proficiency": "Conversacional" },
+    { "language": "Portugués", "proficiency": "Conversacional" },
+    { "language": "Ruso", "proficiency": "Principiante" }
+  ]
+}

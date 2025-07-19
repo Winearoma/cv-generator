@@ -1,0 +1,10 @@
+services:
+  test-ghactions:
+    container_name: test-ghactions-cont
+    image: test-ghactions
+    build: .
+    pull_policy: missing
+    volumes:
+    - ./output:/app/output
+    command: ["/bin/bash", "./build-cv.sh"]
+    #command: ["/bin/bash", "./build-cv.sh", "--lang", "es"]
