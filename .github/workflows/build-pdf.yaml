@@ -8,7 +8,7 @@ on:
       - 'app/data/**'
       - 'app/templates/**'
       - 'app/build-cv.sh'
-      - '.github/workflows/build-pdf.yml'
+      - '.github/workflows/build-pdf.yaml'
   pull_request:
     branches:
       - master
@@ -16,7 +16,7 @@ on:
       - 'app/data/**'
       - 'app/templates/**'
       - 'app/build-cv.sh'
-      - '.github/workflows/build-pdf.yml'
+      - '.github/workflows/build-pdf.yaml'
   workflow_dispatch:  # Allows manual triggering
 
 jobs:
@@ -38,11 +38,11 @@ jobs:
 
       - name: Run English CV build in Docker
         run: |
-          docker run --rm -v $(pwd):/app cv-builder:${{ github.sha }} bash /app/build-cv.sh --lang en
+          docker run --rm -v $(pwd)/app:/app cv-builder:${{ github.sha }} bash /app/build-cv.sh --lang en
 
       - name: Run Spanish CV build in Docker
         run: |
-          docker run --rm -v $(pwd):/app cv-builder:${{ github.sha }} bash /app/build-cv.sh --lang es
+          docker run --rm -v $(pwd)/app:/app cv-builder:${{ github.sha }} bash /app/build-cv.sh --lang es
 
       - name: Upload PDFs
         uses: actions/upload-artifact@v4
